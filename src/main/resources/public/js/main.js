@@ -37,7 +37,8 @@ function setupH264CanvasPlayer() {
 function connectWebSocket() {
     try {
         var proto = location.protocol === "https:" ? "wss://" : "ws://";
-        var ws = new WebSocket(proto + location.hostname + ":" + location.port + "/ws/");
+        var port = location.port ? ':'+location.port : '';
+        var ws = new WebSocket(proto + location.hostname + port + "/ws/");
         ws.binaryType = "arraybuffer";
         ws.addEventListener("message", function(frame) {
             handleNewFrame(frame);
