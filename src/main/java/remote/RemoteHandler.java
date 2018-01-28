@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.cert.Certificate;
@@ -157,6 +158,8 @@ public class RemoteHandler implements RemoteConnectionHandler, RemoteConnectionC
                     case ZERO_CONNECTIONS:
                         queueFiller.removeQueue(h264Frames);
                         h264Frames.clear();
+                    case -1:
+                        throw new SocketException("socket closed");
                 }
             }
         } catch (IOException e) {
@@ -208,7 +211,7 @@ public class RemoteHandler implements RemoteConnectionHandler, RemoteConnectionC
 
     @Override
     public void disconnected() {
-
+        disconnect();
     }
 
 }

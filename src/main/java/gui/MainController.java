@@ -274,6 +274,7 @@ public class MainController implements GuiStatsUpdater, RectangleUpdater, Remote
         enableRemoteConnectButton();
         enableRemoteCheckbox();
         enableRemoteInput();
+        disableStartShareButton();
         remoteIsConnected = false;
     }
 
