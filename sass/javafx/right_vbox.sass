@@ -1,0 +1,86 @@
+@charset "utf-8"
+
+#rightSideVbox
+    -fx-background-color: $right-vbox-bg
+
+.rightSideVboxes
+    -fx-padding: $padding-left-right-vboxes
+
+.rightSideLabel
+    -fx-font-size: $right-vbox-label-font-size
+    -fx-text-fill: $right-vbox-label-font-color
+
+.choice-box
+    -fx-background-color: $right-vbox-item-bg
+    -fx-min-width: $right-vbox-item-width
+    -fx-max-width: $right-vbox-item-width
+    -fx-min-height: $right-vbox-item-height
+    -fx-max-height: $right-vbox-item-height
+    -fx-mark-color: $right-vbox-item-font-color
+    -fx-focused-mark-color: $right-vbox-item-font-color
+
+.choice-box > .label
+    -fx-text-fill: $right-vbox-item-font-color
+    -fx-font-size: $right-vbox-item-font-size
+
+.choice-box .context-menu:hover
+    -fx-cursor: hand
+
+.choice-box:hover
+    -fx-cursor: hand
+    -fx-background-color: $right-vbox-item-hover-bg
+
+.choice-box .context-menu
+    -fx-padding: 0 0 0 0
+    -fx-background-color: $right-vbox-choice-popup-bg
+
+.choice-box .menu-item:focused
+    -fx-background-color: $right-vbox-choice-popup-hover-bg
+
+.choice-box .menu-item > .label,
+.choice-box .menu-item:focused > .label
+    -fx-text-fill: $right-vbox-item-font-color
+
+.tooltip
+    -fx-background-color: $right-vbox-tooltip-bg
+    -fx-text-fill: $right-vbox-tooltip-font-color
+    -fx-font-size: $right-vbox-tooltip-font-size
+
+#editRectangleButton
+    -fx-background-color: $grey-edit-rect-button-bg
+    -fx-font-size: $right-vbox-item-font-size
+    -fx-min-width: $right-vbox-item-width
+    -fx-max-width: $right-vbox-item-width
+    -fx-min-height: $right-vbox-item-height
+    -fx-max-height: $right-vbox-item-height
+
+#editRectangleButton:hover
+    -fx-background-color: $grey-edit-rect-button-hover-bg
+
+#editRectangleButton:pressed
+    -fx-background-color: $grey-edit-rect-button-pressed-bg
+
+#startShareButton, #stopShareButton
+    -fx-font-size: $right-vbox-start-button-font-size
+    -fx-min-width: $right-vbox-item-width
+    -fx-max-width: $right-vbox-item-width
+    -fx-min-height: $right-vbox-start-button-height
+    -fx-max-height: $right-vbox-start-button-height
+
+#startShareButton
+    -fx-background-color: $primary-button-bg
+
+#startShareButton:hover
+    -fx-background-color: $primary-button-hover-bg
+
+#startShareButton:pressed
+    -fx-background-color: $primary-button-bg-pressed
+
+#stopShareButton
+    -fx-background-color: $red-button-bg
+
+#stopShareButton:hover
+    -fx-background-color: $red-button-hover-bg
+
+#stopShareButton:pressed
+    -fx-background-color: $red-button-bg-pressed

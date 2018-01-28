@@ -1,0 +1,113 @@
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.Pane?>
+<VBox fx:controller="gui.MainController" xmlns:fx="http://javafx.com/fxml" stylesheets="@../css/main.min.css" fx:id="root">
+
+    <MenuBar>
+        <Menu mnemonicParsing="false" text="File">
+            <MenuItem fx:id="menuSettings" mnemonicParsing="false" text="Settings" />
+            <MenuItem fx:id="menuExit" mnemonicParsing="false" text="Exit" />
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+            <MenuItem fx:id="menuAbout" mnemonicParsing="false" text="About screen_share" />
+        </Menu>
+    </MenuBar>
+
+    <HBox>
+        <VBox HBox.hgrow="ALWAYS" fx:id="leftSideVbox" spacing="20">
+            <VBox styleClass="leftSideVboxes" spacing="10">
+                <CheckBox text="share using embedded web server" fx:id="embeddedCheckbox" />
+                <HBox fx:id="embeddedPortHbox" styleClass="leftPaddingUnderCheckboxes" disable="true">
+                    <Label text="port:" styleClass="leftSideLabel, textFieldLabel"/>
+                    <TextField text="8080" promptText="port" fx:id="embeddedPort"/>
+                </HBox>
+                <HBox fx:id="embeddedHboxStats" disable="true">
+                    <Label text="0" styleClass="leftSideStatsText, leftSideStatsValue" fx:id="embeddedConnectionsValue"/>
+                    <Label text=" connections " styleClass="leftSideStatsText"/>
+                    <Label text="0.00" styleClass="leftSideStatsText, leftSideStatsValue" fx:id="embeddedBitsPerSecondValue"/>
+                    <Label text=" " styleClass="leftSideStatsText"/>
+                    <Label fx:id="embeddedBitsPerSecondLabel" text="kbit/s" styleClass="leftSideStatsText"/>
+                    <Label text=" " styleClass="leftSideStatsText"/>
+                    <Label text="0.00" styleClass="leftSideStatsText, leftSideStatsValue" fx:id="embeddedMegabytesTransferredValue"/>
+                    <Label text=" megabytes transferred" styleClass="leftSideStatsText"/>
+                </HBox>
+            </VBox>
+            <VBox styleClass="leftSideVboxes" spacing="10">
+                <CheckBox  fx:id="remoteCheckbox" text="share to remote web server"/>
+                <HBox fx:id="remoteAddressHbox" styleClass="leftPaddingUnderCheckboxes" disable="true">
+                    <Label text="address:    " styleClass="leftSideLabel, textFieldLabel"/>
+                    <TextField fx:id="remoteAddress" text="localhost:9999" promptText="example.com:1234"/>
+                </HBox>
+                <HBox fx:id="remotePasswordHbox" styleClass="leftPaddingUnderCheckboxes" disable="true">
+                    <Label text="password:   " styleClass="leftSideLabel, textFieldLabel"/>
+                    <PasswordField fx:id="remotePassword" promptText="remote configured password for remote to authenticate you"/>
+                </HBox>
+                <HBox fx:id="remoteFingerprintHbox" styleClass="leftPaddingUnderCheckboxes" disable="true">
+                    <Label text="fingerprint:" styleClass="leftSideLabel, textFieldLabel"/>
+                    <TextField fx:id="remoteFingerprint" promptText="remote TLS certificate fingerprint for you to authenticate remote"/>
+                </HBox>
+                <HBox fx:id="remoteButtonHbox" disable="true">
+                    <Button fx:id="remoteConnectButton" text="connect"/>
+                    <Button fx:id="remoteDisconnectButton" visible="false" managed="false" text="disconnect"/>
+                </HBox>
+                <Label fx:id="toRemoteLabel" text="from here to remote: TODO" styleClass="leftSideLabel, leftPaddingUnderCheckboxes" disable="true"/>
+                <HBox fx:id="toRemoteHbox" styleClass="leftPaddingUnderCheckboxes" disable="true">
+                    <Label text="0.00" styleClass="leftSideStatsText, leftSideStatsValue" fx:id="toRemoteMbitsValue"/>
+                    <Label text=" mbit/s " styleClass="leftSideStatsText"/>
+                    <Label text="0.00" styleClass="leftSideStatsText, leftSideStatsValue" fx:id="toRemoteMbTransferredValue"/>
+                    <Label text=" megabytes transferred" styleClass="leftSideStatsText"/>
+                </HBox>
+                <Label fx:id="fromRemoteLabel" text="from remote to viewers: TODO" styleClass="leftSideLabel" disable="true"/>
+                <HBox fx:id="fromRemoteHbox" styleClass="leftPaddingUnderCheckboxes" disable="true">
+                    <Label text="0" styleClass="leftSideStatsText, leftSideStatsValue" fx:id="fromRemoteConnectionsValue"/>
+                    <Label text=" connections " styleClass="leftSideStatsText"/>
+                    <Label text="0.00" styleClass="leftSideStatsText, leftSideStatsValue" fx:id="fromRemoteMbitsValue"/>
+                    <Label text=" mbit/s " styleClass="leftSideStatsText"/>
+                    <Label text="0.00" styleClass="leftSideStatsText, leftSideStatsValue" fx:id="fromRemoteMbTransferredValue"/>
+                    <Label text=" megabytes transferred" styleClass="leftSideStatsText"/>
+                </HBox>
+            </VBox>
+        </VBox>
+        <VBox fx:id="rightSideVbox">
+            <VBox spacing="4" styleClass="rightSideVboxes">
+                <Label text="video settings:" styleClass="rightSideLabel"/>
+                <ChoiceBox fx:id="fpsChoiceBox"/>
+                <ChoiceBox fx:id="crfChoiceBox">
+                    <tooltip>
+                        <Tooltip text="Lower means higher quality but also higher bitrate"/>
+                    </tooltip>
+                </ChoiceBox>
+                <ChoiceBox fx:id="maxRateChoiceBox" />
+            </VBox>
+            <VBox spacing="4" styleClass="rightSideVboxes" VBox.vgrow="ALWAYS">
+                <HBox>
+                    <Label text="what to share:" styleClass="rightSideLabel"/>
+                    <Pane HBox.hgrow="ALWAYS" />
+                    <Label fx:id="resolutionWidthValue" styleClass="rightSideLabel"/>
+                    <Label text="x" styleClass="rightSideLabel"/>
+                    <Label fx:id="resolutionHeightValue" styleClass="rightSideLabel"/>
+                </HBox>
+                <ChoiceBox fx:id="whatToShareChoiceBox" />
+                <Button text="edit rectangle" visible="false" managed="false" fx:id="editRectangleButton" />
+            </VBox>
+            <VBox styleClass="rightSideVboxes">
+                <Button text="start sharing screen" fx:id="startShareButton" disable="true"/>
+                <Button text="stop sharing screen" visible="false" managed="false" fx:id="stopShareButton"/>
+            </VBox>
+        </VBox>
+    </HBox>
+
+    <ListView focusTraversable="false" VBox.vgrow="ALWAYS" fx:id="log" />
+
+</VBox>

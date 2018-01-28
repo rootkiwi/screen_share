@@ -1,0 +1,175 @@
+import java.text.SimpleDateFormat
+
+plugins {
+    id 'com.github.johnrengelman.shadow' version '2.0.2'
+}
+
+group 'kiwi.root'
+version '0.1.0'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+
+    compile 'org.eclipse.jetty:jetty-server:9.4.8.v20171121'
+    compile 'org.eclipse.jetty.websocket:websocket-server:9.4.8.v20171121'
+
+    compile 'org.bytedeco:javacv:1.3.3'
+    compile 'org.bytedeco.javacpp-presets:ffmpeg:3.2.1-1.3:linux-x86'
+    compile 'org.bytedeco.javacpp-presets:ffmpeg:3.2.1-1.3:linux-x86_64'
+    compile 'org.bytedeco.javacpp-presets:ffmpeg:3.2.1-1.3:macosx-x86_64'
+    compile 'org.bytedeco.javacpp-presets:ffmpeg:3.2.1-1.3:windows-x86'
+    compile 'org.bytedeco.javacpp-presets:ffmpeg:3.2.1-1.3:windows-x86_64'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'gui.Main',
+                'Implementation-Version': version + buildTime()
+    }
+}
+
+def static buildTime() {
+    def df = new SimpleDateFormat(" (MMMM dd, yyyy)")
+    return df.format(new Date())
+}
+
+task linux_x86(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+    from sourceSets.main.output
+    configurations = [project.configurations.runtime]
+
+    baseName = 'screen_share'
+    version = version
+    classifier = 'linux_x86'
+
+//    exclude 'build_type/linux_x86'
+    exclude 'build_type/linux_x86_64'
+    exclude 'build_type/macos_x86_64'
+    exclude 'build_type/win_x86'
+    exclude 'build_type/win_x86_64'
+
+//    exclude 'org/bytedeco/javacpp/linux-x86/*'
+    exclude 'org/bytedeco/javacpp/linux-x86_64/*'
+    exclude 'org/bytedeco/javacpp/macosx-x86_64/*'
+    exclude 'org/bytedeco/javacpp/windows-x86/*'
+    exclude 'org/bytedeco/javacpp/windows-x86_64/*'
+
+    manifest {
+        inheritFrom project.tasks.jar.manifest
+    }
+}
+
+task linux_x86_64(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+    from sourceSets.main.output
+    configurations = [project.configurations.runtime]
+
+    baseName = 'screen_share'
+    version = version
+    classifier = 'linux_x86_64'
+
+    exclude 'build_type/linux_x86'
+//    exclude 'build_type/linux_x86_64'
+    exclude 'build_type/macos_x86_64'
+    exclude 'build_type/win_x86'
+    exclude 'build_type/win_x86_64'
+
+    exclude 'org/bytedeco/javacpp/linux-x86/*'
+//    exclude 'org/bytedeco/javacpp/linux-x86_64/*'
+    exclude 'org/bytedeco/javacpp/macosx-x86_64/*'
+    exclude 'org/bytedeco/javacpp/windows-x86/*'
+    exclude 'org/bytedeco/javacpp/windows-x86_64/*'
+
+    manifest {
+        inheritFrom project.tasks.jar.manifest
+    }
+}
+
+task macos_x86_64(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+    from sourceSets.main.output
+    configurations = [project.configurations.runtime]
+
+    baseName = 'screen_share'
+    version = version
+    classifier = 'macos_x86_64'
+
+    exclude 'build_type/linux_x86'
+    exclude 'build_type/linux_x86_64'
+//    exclude 'build_type/macos_x86_64'
+    exclude 'build_type/win_x86'
+    exclude 'build_type/win_x86_64'
+
+    exclude 'org/bytedeco/javacpp/linux-x86/*'
+    exclude 'org/bytedeco/javacpp/linux-x86_64/*'
+//    exclude 'org/bytedeco/javacpp/macosx-x86_64/*'
+    exclude 'org/bytedeco/javacpp/windows-x86/*'
+    exclude 'org/bytedeco/javacpp/windows-x86_64/*'
+
+    manifest {
+        inheritFrom project.tasks.jar.manifest
+    }
+}
+
+task win_x86(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+    from sourceSets.main.output
+    configurations = [project.configurations.runtime]
+
+    baseName = 'screen_share'
+    version = version
+    classifier = 'win_x86'
+
+    exclude 'build_type/linux_x86'
+    exclude 'build_type/linux_x86_64'
+    exclude 'build_type/macos_x86_64'
+//    exclude 'build_type/win_x86'
+    exclude 'build_type/win_x86_64'
+
+    exclude 'org/bytedeco/javacpp/linux-x86/*'
+    exclude 'org/bytedeco/javacpp/linux-x86_64/*'
+    exclude 'org/bytedeco/javacpp/macosx-x86_64/*'
+//    exclude 'org/bytedeco/javacpp/windows-x86/*'
+    exclude 'org/bytedeco/javacpp/windows-x86_64/*'
+
+    manifest {
+        inheritFrom project.tasks.jar.manifest
+    }
+}
+
+task win_x86_64(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+    from sourceSets.main.output
+    configurations = [project.configurations.runtime]
+
+    baseName = 'screen_share'
+    version = version
+    classifier = 'win_x86_64'
+
+    exclude 'build_type/linux_x86'
+    exclude 'build_type/linux_x86_64'
+    exclude 'build_type/macos_x86_64'
+    exclude 'build_type/win_x86'
+//    exclude 'build_type/win_x86_64'
+
+    exclude 'org/bytedeco/javacpp/linux-x86/*'
+    exclude 'org/bytedeco/javacpp/linux-x86_64/*'
+    exclude 'org/bytedeco/javacpp/macosx-x86_64/*'
+    exclude 'org/bytedeco/javacpp/windows-x86/*'
+//    exclude 'org/bytedeco/javacpp/windows-x86_64/*'
+
+    manifest {
+        inheritFrom project.tasks.jar.manifest
+    }
+}
+
+task build_all() {
+    dependsOn linux_x86
+    dependsOn linux_x86_64
+    dependsOn macos_x86_64
+    dependsOn win_x86
+    dependsOn win_x86_64
+}

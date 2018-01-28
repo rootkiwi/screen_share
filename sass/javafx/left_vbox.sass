@@ -1,0 +1,85 @@
+@charset "utf-8"
+
+#leftSideVbox
+    -fx-background-color: $left-vbox-bg
+    -fx-padding: 0 0 $left-vbox-down-padding 0
+
+.leftSideVboxes
+    -fx-padding: $padding-left-right-vboxes
+
+.check-box
+    -fx-padding: 0 0 $left-padding-down-check 0
+    -fx-font-size: $left-vbox-check-font-size
+    -fx-text-fill: $left-vbox-check-font-color
+
+.check-box .box,
+.check-box:selected .box
+    -fx-background-color: $left-vbox-item-bg
+
+.check-box:hover
+    -fx-cursor: hand
+
+.check-box:hover .box,
+.check-box:selected:hover .box
+    -fx-background-color: $left-vbox-item-hover-bg
+
+.check-box:selected .box .mark,
+.check-box:indeterminate .box .mark
+    -fx-background-color: $black
+
+.leftPaddingUnderCheckboxes
+    -fx-padding: 0 0 0 $left-padding-left-items
+
+.leftSideLabel
+    -fx-font-size: $left-vbox-label-font-size
+    -fx-text-fill: $left-vbox-label-font-color
+
+.textFieldLabel
+    -fx-padding: 4px 10px 0 0
+
+.leftSideStatsText
+    -fx-font-size: $left-vbox-stats-font-size
+    -fx-text-fill: $left-vbox-stats-font-color
+
+.leftSideStatsValue
+    -fx-font-weight: bold
+
+.text-field
+    -fx-accent: $left-vbox-text-field-mark-font-color
+    -fx-background-color: $left-vbox-text-field-bg
+    -fx-background-radius: 0
+    -fx-background-insets: 0
+    -fx-min-height: $left-vbox-text-field-height
+    -fx-max-height: $left-vbox-text-field-height
+    -fx-text-fill: $left-vbox-text-field-font-color
+    -fx-font-size: $left-vbox-text-field-font-size
+
+#embeddedHboxStats, #fromRemoteLabel
+    -fx-padding: $left-stats-top-down-padding 0 0 $left-padding-left-items
+
+#remoteButtonHbox
+    -fx-padding: 0 0 $left-stats-top-down-padding $left-padding-left-items
+
+#embeddedPort
+    -fx-min-width: $left-vbox-text-port-field-width
+    -fx-max-width: $left-vbox-text-port-field-width
+
+#remoteAddress, #remotePassword, #remoteFingerprint
+    -fx-min-width: $left-vbox-remote-text-field-width
+    -fx-max-width: $left-vbox-remote-text-field-width
+
+#remoteConnectButton, #remoteDisconnectButton
+    -fx-font-size: $left-vbox-remote-button-font-size
+    -fx-min-height: $left-vbox-remote-button-height
+    -fx-max-height: $left-vbox-remote-button-height
+    -fx-min-width: $left-vbox-remote-button-width
+    -fx-max-width: $left-vbox-remote-button-width
+
+#remoteConnectButton, #remoteDisconnectButton
+    -fx-background-color: $grey-connect-remote-bg
+
+#remoteConnectButton:hover, #remoteDisconnectButton:hover
+    -fx-background-color: $grey-connect-remote-hover-bg
+
+#remoteConnectButton:pressed, #remoteDisconnectButton:pressed
+    -fx-background-color: $grey-connect-remote-pressed-bg

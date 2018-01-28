@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head>
+    <meta charset="utf-8">
+    <title>WebSockets2</title>
+    <link rel="stylesheet" href="css/style.min.css">
+</head>
+<body>
+
+<div id="topBar">
+  <div id="topBarLeft">
+      <span id="fpsValue" class="value">0</span>
+      <span class="marginRight">fps</span>
+      <span id="bitsPerSecondValue" class="value">0.00</span>
+      <span class="marginRight" id="bitsPerSecondLabel">kbit/s</span>
+      <span id="megabytesTransferredValue" class="value">0.00</span>
+      <span class="marginRight">megabytes transferred</span>
+      <span id="resolutionWidthValue" class="value">0</span>
+      <span>x</span>
+      <span id="resolutionHeightValue" class="value">0</span>
+      <span>resolution</span>
+  </div>
+
+  <div id="topBarRight">
+      <select>
+          <option value="scale" selected>Scale to window</option>
+          <option value="actual">Actual screen size</option>
+      </select>
+  </div>
+</div>
+
+<div id="canvasContainer">
+  <div id="clippedCanvasContainer"></div>
+</div>
+
+<div id="messageContainer">
+    <p id="message"></p>
+</div>
+
+<script src='js/broadway/Decoder.js'></script>
+<script src='js/broadway/YUVCanvas.js'></script>
+<script src='js/broadway/Player.js'></script>
+<script src='js/main.js'></script>
+
+</body>
+</html>

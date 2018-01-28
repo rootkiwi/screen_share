@@ -1,0 +1,66 @@
+.root {
+    -fx-background-color: #E0E0E0;
+    -fx-font-family: monospace;
+    -fx-font-size: 20px;
+    -fx-padding: 40px 40px 40px 40px;
+}
+
+.label {
+    -fx-text-fill: #000000;
+}
+
+#title {
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 30px 0;
+}
+
+#checkButtonVbox {
+    -fx-padding: 40px 0 40px 0;
+}
+
+.button {
+    -fx-background-color: #1DE9B6;
+    -fx-font-size: 24;
+    -fx-text-fill: #212121;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-min-width: 140;
+    -fx-max-width: 140;
+    -fx-min-height: 60;
+    -fx-max-height: 60;
+}
+
+.button:hover {
+    -fx-background-color: #64FFDA;
+    -fx-cursor: hand;
+}
+
+.button:pressed {
+    -fx-background-color: #00BFA5;
+}
+
+.check-box {
+    -fx-padding: 0 0 0 0;
+    -fx-text-fill: #212121;
+}
+
+.check-box .box,
+.check-box:selected .box {
+    -fx-background-color: #9E9E9E;
+}
+
+.check-box:hover {
+    -fx-cursor: hand;
+}
+
+.check-box:hover .box,
+.check-box:selected:hover .box {
+    -fx-background-color: #AAAAAA;
+}
+
+.check-box:selected .box .mark,
+.check-box:indeterminate .box .mark {
+    -fx-background-color: #000000;
+}
+

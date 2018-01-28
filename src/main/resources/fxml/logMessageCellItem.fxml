@@ -1,0 +1,9 @@
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+
+<HBox xmlns:fx="http://javafx.com/fxml" spacing="10" stylesheets="@../css/log_message_cell_item.css" fx:id="root" >
+
+        <Label fx:id="timestampLabel" />
+        <Label fx:id="messageLabel" />
+
+</HBox>

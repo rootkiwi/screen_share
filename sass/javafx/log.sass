@@ -1,0 +1,36 @@
+@charset "utf-8"
+
+.list-cell
+    -fx-padding: $log-cell-padding
+
+.list-view, .list-cell
+    -fx-background-color: $log-bg
+
+.list-view .scroll-bar:vertical,
+.list-view .scroll-bar:horizontal
+    -fx-background-color: #E0E0E0
+
+.list-view .scroll-bar:vertical .thumb,
+.list-view .scroll-bar:horizontal .thumb
+    -fx-background-color: #9E9E9E
+    -fx-background-radius: 0
+
+.list-view .scroll-bar:vertical .thumb:hover,
+.list-view .scroll-bar:horizontal .thumb:hover
+    -fx-background-color: #BDBDBD
+
+.list-view .scroll-bar:vertical .thumb:pressed,
+.list-view .scroll-bar:horizontal .thumb:pressed
+    -fx-background-color: #757575
+
+.list-view .increment-button:hover,
+.list-view .increment-button:pressed,
+.list-view .decrement-button:hover,
+.list-view .decrement-button:pressed
+    -fx-background-color: #D0D0D0
+
+.list-view .scroll-bar:horizontal .increment-arrow,
+.list-view .scroll-bar:vertical .increment-arrow,
+.list-view .scroll-bar:horizontal .decrement-arrow,
+.list-view .scroll-bar:vertical .decrement-arrow
+    -fx-background-color: #BDBDBD

@@ -1,0 +1,10 @@
+.label {
+    -fx-text-fill: #212121;
+    -fx-font-family: monospace;
+    -fx-font-size: 13px;
+}
+
+.link:hover {
+    -fx-text-fill: #2979FF;
+    -fx-cursor: hand;
+}

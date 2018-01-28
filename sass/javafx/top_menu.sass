@@ -1,0 +1,25 @@
+@charset "utf-8"
+
+.menu
+    -fx-padding: 5px 7px 5px 7px
+
+.menu .context-menu
+    -fx-background-color: $top-menu-bg
+    -fx-padding: 0 0 0 0
+
+.menu-item > .label,
+.menu > .label
+    -fx-text-fill: $top-menu-font-color
+    -fx-font-size: $top-menu-font-size
+
+.menu:hover
+    -fx-background-color: $top-menu-bg
+
+.menu:showing,
+.menu-item:focused
+    -fx-background-color: $top-menu-focus
+
+.menu-bar
+    -fx-background-color: $top-menu-bg
+    -fx-padding: 0 0 0 0
+    -fx-spacing: 0

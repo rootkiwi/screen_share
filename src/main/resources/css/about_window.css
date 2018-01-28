@@ -1,0 +1,33 @@
+.root {
+    -fx-background-color: #212121;
+    -fx-font-family: monospace;
+    -fx-font-size: 16;
+    -fx-padding: 40px 40px 0 40px;
+}
+
+#title {
+    -fx-font-size: 42;
+    -fx-text-fill: #1DE9B6;
+}
+
+.link:hover {
+    -fx-text-fill: #2979FF;
+    -fx-cursor: hand;
+}
+
+#thirdPartyVbox {
+    -fx-padding: 40px 0 40px 0;
+}
+
+#thirdPartyComponentsTitle {
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+}
+
+.label {
+    -fx-text-fill: #F5F5F5;
+}
+
+.thirdPartyTitle {
+    -fx-font-weight: bold;
+}

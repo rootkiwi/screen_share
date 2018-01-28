@@ -1,0 +1,25 @@
+.root {
+    -fx-background-color: #FF980080;
+    -fx-font-family: monospace;
+    -fx-font-size: 20;
+    -fx-text-fill: black;
+}
+
+.button {
+    -fx-background-color: #1DE9B6;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-min-width: 120;
+    -fx-max-width: 120;
+    -fx-min-height: 60;
+    -fx-max-height: 60;
+}
+
+.button:hover {
+    -fx-background-color: #64FFDA;
+    -fx-cursor: hand;
+}
+
+.button:pressed {
+    -fx-background-color: #00BFA5;
+}

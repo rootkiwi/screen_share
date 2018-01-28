@@ -1,0 +1,64 @@
+@charset "utf-8"
+
+#topBar
+    +unselectable
+    height: $topBar-height
+    width: 100%
+    background-color: $topBar-bg
+    display: flex
+    align-items: center
+    justify-content: space-between
+    color: $topBar-text-color
+
+#topBarLeft
+    font-size: 110%
+    padding-left: $topBar-horizontal-padding
+    white-space: nowrap
+
+.value
+    font-weight: bold
+
+.marginRight
+    margin-right: 8px
+
+#topBarRight
+    position: relative
+    padding-right: $topBar-horizontal-padding
+    select
+        -moz-appearance: none
+        -webkit-appearance: none
+        border: 1px solid transparent
+        border-radius: 2px
+        line-height: 1.5
+        padding: 2px 40px 2px 7px
+        color: $select-text-color
+        cursor: pointer
+        display: block
+        font-size: 90%
+        outline: none
+        background-color: $select-bg
+        border-color: $select-border-color
+        &:hover
+            border-color: $select-border-color-hover
+        &:focus,
+        &:active
+            border-color: $select-border-color-active
+            box-shadow: 0 0 0 0.125em rgba($black, 0.25)
+        &::-ms-expand
+            display: none
+    &::after
+        font-size: 70%
+        border: 1px solid $black
+        border-right: 0
+        border-top: 0
+        content: " "
+        height: 0.5em
+        pointer-events: none
+        position: absolute
+        transform: rotate(-45deg)
+        transform-origin: center
+        width: 0.5em
+        margin-top: -0.375em
+        right: 30px
+        top: 50%
+

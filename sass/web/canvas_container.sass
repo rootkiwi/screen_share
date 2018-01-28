@@ -1,0 +1,44 @@
+@charset "utf-8"
+
+=main-container
+    overflow: auto
+    position: relative
+    background-color: $main-container-bg
+    display: none
+    flex: 1 0 auto
+    max-width: 100%
+    max-height: calc(100% - #{$topBar-height})
+
+#canvasContainer
+    +main-container
+
+#canvasContainer.show
+    &.scale
+        display: block
+    &.actual
+        display: flex
+
+#clippedCanvasContainer
+    overflow: hidden
+    &.scale
+        transform-origin: 0 0
+        position: absolute
+        top: 50%
+        left: 50%
+    &.actual
+        flex-shrink: 0
+        margin: auto
+
+#messageContainer
+    +main-container
+
+#messageContainer.show
+    display: flex
+
+#message
+    +unselectable
+    font-size: 300%
+    margin: auto
+    text-align: center
+    color: $message-text-color
+
