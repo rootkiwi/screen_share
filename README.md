@@ -8,29 +8,24 @@ is used for remote web server screen sharing.
 ![Screenshot](docs/images/screenshot.png)
 
 ## About
-I've been working on this program for pretty long now, with a few breaks here and there when I've been busy with
-life / school.
+It uses JavaCV to access to FFmpeg to capture the screen and libx264 for h264 encoding. Then in the browser
+it uses Broadway for javascript h264 decoding. With WebSocket for transport. Jetty is used for the embedded
+web server / WebSocket server.
 
-It started with sending pure screenshots, using the java Robot class. Calculating the diffs and only sending
-the pixels that diffed. It worked but I had to fallback to JPEG when the diffs got to big, otherwise
-a bandwidth of >300Mbit/s was needed.
+This is video only (no audio) and is not made for any high fps stuff like movies / games etc.
+Just for simple desktop sharing. High fps can be resource intensive for the browser (javascript / Broadway).
 
-So I started looking into video encoding, and learning about the magic of h264. Using JavaCV to access FFmpeg
-to capture the screen and also accessing x264 for encoding. Then Broadway for the awesome h264 javascript decoder.
-WebSocket is used for transport.
-
-This is video only and is not made for any high fps stuff like movies / games etc. Just for simple desktop sharing.
-
-Jetty is used for the embedded web server / WebSocket server.
+When using remote sharing a password is used so the remote can authenticate screen_share. And the fingerprint of
+the remote TLS certificate needs to be entered in screen_share. So you know you are connecting to the remote you
+think you are connecting to, and no man-in-the-middle attack or anything.
 
 ## Alpha
-I have a lot to do in school at the moment and I feel that I really need to upload this project now,
-even though it's not finished. So I can let go of it for a while :)
-And make small fixes / implement more stuff when I have time.
+I've have not tested it on all platforms / browsers.
 
-The program may contain many bugs as it's not tested that much. I've tested it on Linux with Firefox and Chromium.
+I've tested it on Linux x86_64 with Firefox and Chromium.
+I've also tested on Windows 7 x86_64 in VirtualBox with Firefox and Chrome.
 
-## Binaries
+## Executable jars
 Gradle Shadow is used for bundling fat jars, for different platforms.
 Right now jars are built for
 * Linux x86
@@ -39,8 +34,8 @@ Right now jars are built for
 * Windows x86
 * Windows x86_64
 
-But the program may need a few changes to work on windows / mac, I don't know. Like where the config is stored and
-more importantly how the screen is captured.
+The reason multiple jars are needed is because FFmpeg is bundled, and the jar would be very big if it
+contained binaries for all platforms.
 
 Download here: [screen_share/releases/latest](https://github.com/rootkiwi/screen_share/releases/latest)
 
@@ -56,6 +51,22 @@ java -jar screen_share-<VERSION>-<PLATFORM>.jar
 Run following to output in `build/libs`
 ```
 ./gradlew build_all
+```
+or
+```
+./gradlew linux_x86
+```
+```
+./gradlew linux_x86_64
+```
+```
+./gradlew macos_x86_64
+```
+```
+./gradlew win_x86
+```
+```
+./gradlew win_x86_64
 ```
 
 ## Dependencies
