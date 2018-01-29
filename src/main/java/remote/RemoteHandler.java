@@ -199,19 +199,23 @@ public class RemoteHandler implements RemoteConnectionHandler, RemoteConnectionC
 
     @Override
     public void disconnect() {
-        stop = true;
         try {
             remoteConnection.cancel();
         } catch (Exception e) {}
+        stop();
+    }
+
+    @Override
+    public void remoteDisconnected() {
+        stop();
+    }
+
+    private void stop() {
+        stop = true;
         try {
             tlsSocket.close();
         } catch (Exception e) {}
         queueFiller.removeQueue(h264Frames);
-    }
-
-    @Override
-    public void disconnected() {
-        disconnect();
     }
 
 }

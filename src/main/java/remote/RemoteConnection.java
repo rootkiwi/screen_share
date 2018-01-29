@@ -46,7 +46,7 @@ class RemoteConnection {
                 break;
             }
         }
-        callback.disconnected();
+        callback.remoteDisconnected();
     }
 
     void cancel() {

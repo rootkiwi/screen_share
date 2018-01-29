@@ -10,6 +10,6 @@ package remote;
 
 interface RemoteConnectionCallback {
 
-    void disconnected();
+    void remoteDisconnected();
 
 }

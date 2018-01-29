@@ -100,6 +100,7 @@ public class MainController implements GuiStatsUpdater, RectangleUpdater, Remote
     private Rectangle rectangleBounds = new Rectangle();
     private ConfigHandler configHandler = ConfigHandlerFactory.getConfigHandler();
     private Settings settings;
+    private boolean alreadyCleanedUp = false;
     private boolean saveSettingsOnExit = false;
 
     private boolean remoteIsConnected = false;
@@ -602,15 +603,18 @@ public class MainController implements GuiStatsUpdater, RectangleUpdater, Remote
         }
     }
 
-    void cleanup() {
-        statsUpdater.stop();
-        h264FrameQueueFiller.stop();
-        embeddedWebServer.stop();
-        remoteHandler.disconnect();
-        if (saveSettingsOnExit) {
-            saveSettings();
-        } else {
-            configHandler.deleteIfExists();
+    synchronized void cleanup() {
+        if (!alreadyCleanedUp) {
+            alreadyCleanedUp = true;
+            statsUpdater.stop();
+            h264FrameQueueFiller.stop();
+            embeddedWebServer.stop();
+            remoteHandler.disconnect();
+            if (saveSettingsOnExit) {
+                saveSettings();
+            } else {
+                configHandler.deleteIfExists();
+            }
         }
     }
 
