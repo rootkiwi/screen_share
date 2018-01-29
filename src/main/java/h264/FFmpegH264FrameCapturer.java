@@ -176,19 +176,23 @@ public class FFmpegH264FrameCapturer implements H264FrameCapturer {
             }
 
             Frame frame;
-            if (roi.equals(rectangleFullScreen)) {
-                frame = grabber.grabImage();
-            } else {
+            while ((frame = grabber.grabImage()) == null && started) {
+                // apparently on windows lock screen grabImage() returns null, so we wait and try every second
+                // or until !started anymore
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {}
+            }
+            if (!roi.equals(rectangleFullScreen)) {
                 if (roiChanged(roi)) {
                     cropFilter.setFilters("crop=w=" + roi.width + ":h=" + roi.height
                             + ":x=" + (roi.x+positiveTopLeftX) + ":y=" + (roi.y+positiveTopLeftY)
                     );
                     cropFilter.restart();
                 }
-                cropFilter.push(grabber.grabImage());
+                cropFilter.push(frame);
                 frame = cropFilter.pull();
             }
-
             lastWidth = roi.width;
             lastHeight = roi.height;
             lastX = roi.x;
