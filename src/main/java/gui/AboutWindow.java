@@ -81,7 +81,7 @@ class AboutWindow {
         root.setSpacing(10);
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/css/about_window.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/javafx/css/about_window.css").toExternalForm());
         stage.setScene(scene);
     }
 

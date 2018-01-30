@@ -30,7 +30,7 @@ class RectangleWindow {
         StackPane stackPane = new StackPane(okeyButton);
 
         Scene scene = new Scene(stackPane, initialBounds.width, initialBounds.height);
-        scene.getStylesheets().add(getClass().getResource("/css/rectangle_window.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/javafx/css/rectangle_window.css").toExternalForm());
         scene.setFill(Color.TRANSPARENT);
 
         stage = new Stage();

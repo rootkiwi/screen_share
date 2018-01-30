@@ -30,7 +30,7 @@ public class Main extends Application {
     }
 
     private void startApplicationGui(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/javafx/fxml/main.fxml"));
         Parent root = fxmlLoader.load();
         controller = fxmlLoader.getController();
         Runtime.getRuntime().addShutdownHook(new Thread(controller::cleanup));

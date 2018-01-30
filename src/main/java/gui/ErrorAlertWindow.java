@@ -45,7 +45,7 @@ class ErrorAlertWindow {
         vBox.setSpacing(40);
 
         Scene scene = new Scene(vBox);
-        scene.getStylesheets().add(getClass().getResource("/css/error_alert_window.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/javafx/css/error_alert_window.css").toExternalForm());
 
         stage.setScene(scene);
     }

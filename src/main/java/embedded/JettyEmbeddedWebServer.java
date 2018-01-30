@@ -66,7 +66,7 @@ class JettyEmbeddedWebServer implements EmbeddedWebServer {
         ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setDirectoriesListed(false);
         resourceHandler.setWelcomeFiles(new String[]{"index.html"});
-        resourceHandler.setResourceBase(getClass().getClassLoader().getResource("public").toExternalForm());
+        resourceHandler.setResourceBase(getClass().getClassLoader().getResource("web/static").toExternalForm());
 
         ContextHandler staticFilesContext = new ContextHandler();
         staticFilesContext.setContextPath("/");

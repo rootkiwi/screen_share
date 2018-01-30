@@ -22,7 +22,7 @@ class LogListCell {
     @FXML private Label messageLabel;
 
     LogListCell(LogMessage logMessage) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/logMessageCellItem.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/javafx/fxml/logMessageCellItem.fxml"));
         fxmlLoader.setController(this);
         try {
             fxmlLoader.load();
