@@ -168,6 +168,7 @@ public class RemoteHandler implements RemoteConnectionHandler, RemoteConnectionC
                     case ZERO_CONNECTIONS:
                         queueFiller.removeQueue(h264Frames);
                         h264Frames.clear();
+                        break;
                     case -1:
                         throw new SocketException("socket closed");
                 }
