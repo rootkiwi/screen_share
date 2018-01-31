@@ -35,7 +35,6 @@ public class RemoteHandler implements RemoteConnectionHandler, RemoteConnectionC
 
     private RemoteCallback callback;
     private FrameQueueFiller queueFiller;
-    private LogWriter logWriter;
     private RemoteConnection remoteConnection;
     private BlockingQueue<ByteBuffer> h264Frames;
     private String remoteCertificateFingerprint;
@@ -43,10 +42,9 @@ public class RemoteHandler implements RemoteConnectionHandler, RemoteConnectionC
     private SSLSocket tlsSocket;
     private boolean stop = false;
 
-    public RemoteHandler(FrameQueueFiller queueFiller, RemoteCallback callback, LogWriter logWriter) {
+    public RemoteHandler(FrameQueueFiller queueFiller, RemoteCallback callback) {
         this.queueFiller = queueFiller;
         this.callback = callback;
-        this.logWriter = logWriter;
     }
 
     @Override
@@ -64,8 +62,7 @@ public class RemoteHandler implements RemoteConnectionHandler, RemoteConnectionC
             tlsSocket.setEnabledProtocols(TLSv12);
             tlsSocket.setEnabledCipherSuites(TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384);
         } catch (Exception e) {
-            logWriter.writeLogError("remote error creating socket: " + e.getMessage());
-            callback.remoteFailedToConnect();
+            callback.remoteFailedToConnect("remote error creating socket: " + e.getMessage());
             return;
         }
         InputStream in;
@@ -76,8 +73,7 @@ public class RemoteHandler implements RemoteConnectionHandler, RemoteConnectionC
             out = tlsSocket.getOutputStream();
             tlsSocket.setSoTimeout(5000);
         } catch (IOException e) {
-            logWriter.writeLogError("remote failed to connect: " + e.getMessage());
-            callback.remoteFailedToConnect();
+            callback.remoteFailedToConnect("remote failed to connect: " + e.getMessage());
             return;
         }
 
@@ -85,8 +81,7 @@ public class RemoteHandler implements RemoteConnectionHandler, RemoteConnectionC
         try {
             tlsSocket.startHandshake();
         } catch (IOException e) {
-            logWriter.writeLogError("remote TLS handshake failed: " + e.getMessage());
-            callback.remoteFailedToConnect();
+            callback.remoteFailedToConnect("remote TLS handshake failed: " + e.getMessage());
             return;
         }
 
@@ -102,15 +97,13 @@ public class RemoteHandler implements RemoteConnectionHandler, RemoteConnectionC
         }
 
         if (!remoteCertificateFingerprint.equals(fingerprint)) {
-            logWriter.writeLogError("remote fingerprint does not match: " + remoteCertificateFingerprint);
-            callback.remoteFailedToConnect();
+            callback.remoteFailedToConnect("remote fingerprint does not match: " + remoteCertificateFingerprint);
             return;
         }
 
         if (!isScreenShareServer(in)) {
-            logWriter.writeLogError("remote connected to something, "
+            callback.remoteFailedToConnect("remote connected to something, "
                     + "but does not seem to be a screen_share_remote server");
-            callback.remoteFailedToConnect();
             return;
         }
 
@@ -119,8 +112,7 @@ public class RemoteHandler implements RemoteConnectionHandler, RemoteConnectionC
             out.write(intToByteArray(passwordBytes.length));
             out.write(passwordBytes);
         } catch (IOException e) {
-            logWriter.writeLogError("socket closed: " + e.getMessage());
-            callback.remoteFailedToConnect();
+            callback.remoteFailedToConnect("socket closed: " + e.getMessage());
             return;
         }
 
@@ -128,16 +120,13 @@ public class RemoteHandler implements RemoteConnectionHandler, RemoteConnectionC
         try {
             passwordAccepted = in.read() == 1;
             if (!passwordAccepted) {
-                logWriter.writeLogError("wrong remote password");
-                callback.remoteFailedToConnect();
+                callback.remoteFailedToConnect("wrong remote password");
                 return;
             } else {
-                logWriter.writeLogInfo("remote connected");
                 callback.remoteConnected();
             }
         } catch (IOException e) {
-            logWriter.writeLogError("error waiting for password verification: " + e.getMessage());
-            callback.remoteFailedToConnect();
+            callback.remoteFailedToConnect("error waiting for password verification: " + e.getMessage());
             return;
         }
 
@@ -146,8 +135,7 @@ public class RemoteHandler implements RemoteConnectionHandler, RemoteConnectionC
             out.write(intToByteArray(pageTitleBytes.length));
             out.write(pageTitleBytes);
         } catch (IOException e) {
-            logWriter.writeLogError("error sending page title: " + e.getMessage());
-            callback.remoteFailedToConnect();
+            callback.remoteFailedToConnect("error sending page title: " + e.getMessage());
             return;
         }
 

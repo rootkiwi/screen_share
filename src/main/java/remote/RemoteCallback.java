@@ -10,7 +10,7 @@ package remote;
 
 public interface RemoteCallback {
 
-    void remoteFailedToConnect();
+    void remoteFailedToConnect(String errorMsg);
     void remoteConnected();
     void remoteDisconnected();
 

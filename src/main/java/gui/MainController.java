@@ -115,7 +115,7 @@ public class MainController implements GuiStatsUpdater, RectangleUpdater, Remote
         this.h264FrameQueueFiller = h264FrameQueueFiller;
         queueFillerRectangleUpdater = h264FrameQueueFiller;
         embeddedWebServer = WebServerProvider.getEmbeddedWebserver(statsUpdater, h264FrameQueueFiller, logWriter);
-        remoteHandler = new RemoteHandler(h264FrameQueueFiller, this, logWriter);
+        remoteHandler = new RemoteHandler(h264FrameQueueFiller, this);
         setUpWhatToShareChoiceBox();
         registerEventHandlers();
         setUpVideoSettingChoices();
@@ -257,7 +257,8 @@ public class MainController implements GuiStatsUpdater, RectangleUpdater, Remote
     }
 
     @Override
-    public void remoteFailedToConnect() {
+    public void remoteFailedToConnect(String errorMsg) {
+        logWriter.writeLogError(errorMsg);
         enableRemoteConnectButton();
     }
 
