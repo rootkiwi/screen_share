@@ -50,14 +50,14 @@ public class RemoteHandler implements RemoteConnectionHandler, RemoteConnectionC
     }
 
     @Override
-    public void connect(String host, int port, String password, String fingerprint) {
+    public void connect(String host, int port, String password, String fingerprint, String pageTitle) {
         stop = false;
         remoteCertificateFingerprint = "";
         handshakeCompleted = false;
-        new Thread(() -> tryToConnect(host, port, password, fingerprint)).start();
+        new Thread(() -> tryToConnect(host, port, password, fingerprint, pageTitle)).start();
     }
 
-    private void tryToConnect(String host, int port, String password, String fingerprint) {
+    private void tryToConnect(String host, int port, String password, String fingerprint, String pageTitle) {
         try {
             tlsSocket = (SSLSocket) TlsHelper.getRemoteTlsContext().getSocketFactory().createSocket();
             tlsSocket.setUseClientMode(true);
@@ -137,6 +137,16 @@ public class RemoteHandler implements RemoteConnectionHandler, RemoteConnectionC
             }
         } catch (IOException e) {
             logWriter.writeLogError("error waiting for password verification: " + e.getMessage());
+            callback.remoteFailedToConnect();
+            return;
+        }
+
+        try {
+            byte[] pageTitleBytes = pageTitle.getBytes(StandardCharsets.UTF_8);
+            out.write(intToByteArray(pageTitleBytes.length));
+            out.write(pageTitleBytes);
+        } catch (IOException e) {
+            logWriter.writeLogError("error sending page title: " + e.getMessage());
             callback.remoteFailedToConnect();
             return;
         }

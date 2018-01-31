@@ -13,7 +13,7 @@ public interface EmbeddedWebServer {
     /**
      * @return Whether or not web server started successfully
      */
-    boolean start(int port);
+    boolean start(int port, String pageTitle);
     void stop();
 
 }

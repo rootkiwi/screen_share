@@ -10,7 +10,7 @@ package remote;
 
 public interface RemoteConnectionHandler {
 
-    void connect(String host, int port, String password, String fingerprint);
+    void connect(String host, int port, String password, String fingerprint, String pageTitle);
     void disconnect();
 
 }

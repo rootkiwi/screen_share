@@ -27,6 +27,12 @@ class JavaXMLPropertiesConfigHandler implements ConfigHandler {
             try (InputStream in = Files.newInputStream(BuildInfo.configFilePath)) {
                 properties.loadFromXML(in);
                 if (isValidProperties(properties)) {
+                    boolean isMissingNewlyAddedPageTitleProperty = !properties.containsKey("pageTitle");
+                    if (isMissingNewlyAddedPageTitleProperty) {
+                        properties.put("pageTitle", "screen_share");
+                        logWriter.writeLogError("newly added setting 'pageTitle' is missing in your config");
+                        logWriter.writeLogError("will add and use default 'pageTitle'");
+                    }
                     return new Settings(properties);
                 }
             } catch (Exception e) {
@@ -37,6 +43,7 @@ class JavaXMLPropertiesConfigHandler implements ConfigHandler {
         Settings defaultSettings = new Settings();
         defaultSettings.saveSettingsOnExit = false;
         defaultSettings.saveRemotePassword = false;
+        defaultSettings.pageTitle = "scree_share";
         defaultSettings.shareUsingEmbedded = false;
         defaultSettings.embeddedPort = "8080";
         defaultSettings.shareToRemote = false;
@@ -143,6 +150,7 @@ class JavaXMLPropertiesConfigHandler implements ConfigHandler {
     private static void fillProperties(Properties properties, Settings settings) {
         properties.setProperty("saveRemotePassword", String.valueOf(settings.saveRemotePassword));
         properties.setProperty("shareUsingEmbedded", String.valueOf(settings.shareUsingEmbedded));
+        properties.setProperty("pageTitle", String.valueOf(settings.pageTitle));
         properties.setProperty("embeddedPort", settings.embeddedPort);
         properties.setProperty("shareToRemote", String.valueOf(settings.shareToRemote));
         properties.setProperty("remoteAddress", settings.remoteAddress);
@@ -164,7 +172,8 @@ class JavaXMLPropertiesConfigHandler implements ConfigHandler {
             Files.deleteIfExists(BuildInfo.configFilePath);
             Files.deleteIfExists(BuildInfo.configDirPath);
         } catch (Exception e) {
-            System.out.println("error removing conf file: " + e.getMessage());
+            System.err.println("error removing conf file: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

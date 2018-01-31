@@ -16,8 +16,20 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 import stats.EmbeddedStatsUpdater;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
 
 class JettyEmbeddedWebServer implements EmbeddedWebServer {
 
@@ -33,8 +45,24 @@ class JettyEmbeddedWebServer implements EmbeddedWebServer {
     }
 
     @Override
-    public boolean start(int port) {
-        return startWebServer(port);
+    public boolean start(int port, String pageTitle) {
+        byte[] indexHtmlCustomTitleBytes;
+        try (InputStream indexHtml = getClass().getResourceAsStream("/web/dynamic/index.html")) {
+            List<String> lines = new BufferedReader(new InputStreamReader(
+                    indexHtml,
+                    StandardCharsets.UTF_8)).lines().collect(Collectors.toList()
+            );
+            StringBuilder indexHtmlBuilder = new StringBuilder();
+            lines.set(4, "<title>"
+                    + pageTitle.replace("<", "&lt;").replace(">", "&gt;")
+                    + "</title>");
+            lines.forEach(line -> indexHtmlBuilder.append(String.format("%s%n", line)));
+            indexHtmlCustomTitleBytes = indexHtmlBuilder.toString().getBytes(StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            writeErrorMessageToLog("loading index.html: " + e.getMessage());
+            return false;
+        }
+        return startWebServer(port, indexHtmlCustomTitleBytes);
     }
 
     @Override
@@ -45,7 +73,7 @@ class JettyEmbeddedWebServer implements EmbeddedWebServer {
         } catch (Exception e) {}
     }
 
-    private boolean startWebServer(int port) {
+    private boolean startWebServer(int port, byte[] indexHtmlCustomTitleBytes) {
         webServer = new Server();
 
         ServerConnector http = new ServerConnector(webServer);
@@ -63,17 +91,25 @@ class JettyEmbeddedWebServer implements EmbeddedWebServer {
         webSocketContext.setContextPath("/ws/");
         webSocketContext.setHandler(wsHandler);
 
-        ResourceHandler resourceHandler = new ResourceHandler();
-        resourceHandler.setDirectoriesListed(false);
-        resourceHandler.setWelcomeFiles(new String[]{"index.html"});
-        resourceHandler.setResourceBase(getClass().getClassLoader().getResource("web/static").toExternalForm());
+        ResourceHandler cssResourceHandler = new ResourceHandler();
+        cssResourceHandler.setDirectoriesListed(false);
+        cssResourceHandler.setResourceBase(getClass().getClassLoader().getResource("web/static/css").toExternalForm());
+        ContextHandler cssStaticFilesContext = new ContextHandler();
+        cssStaticFilesContext.setContextPath("/css/*");
+        cssStaticFilesContext.setHandler(cssResourceHandler);
 
-        ContextHandler staticFilesContext = new ContextHandler();
-        staticFilesContext.setContextPath("/");
-        staticFilesContext.setHandler(resourceHandler);
+        ResourceHandler jsResourceHandler = new ResourceHandler();
+        jsResourceHandler.setDirectoriesListed(false);
+        jsResourceHandler.setResourceBase(getClass().getClassLoader().getResource("web/static/js").toExternalForm());
+        ContextHandler jsStaticFilesContext = new ContextHandler();
+        jsStaticFilesContext.setContextPath("/js/*");
+        jsStaticFilesContext.setHandler(jsResourceHandler);
+
+        ServletContextHandler indexServletContext = new ServletContextHandler();
+        indexServletContext.addServlet(new ServletHolder(new IndexHtmlServlet(indexHtmlCustomTitleBytes)), "/*");
 
         HandlerList handlers = new HandlerList();
-        handlers.setHandlers(new Handler[]{staticFilesContext, webSocketContext});
+        handlers.setHandlers(new Handler[]{cssStaticFilesContext, jsStaticFilesContext, webSocketContext, indexServletContext});
         webServer.setHandler(handlers);
 
         try {
@@ -87,6 +123,29 @@ class JettyEmbeddedWebServer implements EmbeddedWebServer {
 
     private void writeErrorMessageToLog(String error) {
         logWriter.writeLogError("could not start embedded web server: " + error);
+    }
+
+    private class IndexHtmlServlet extends HttpServlet {
+        private byte[] indexHtmlCustomTitleBytes;
+
+        private IndexHtmlServlet(byte[] indexHtmlCustomTitleBytes) {
+            this.indexHtmlCustomTitleBytes = indexHtmlCustomTitleBytes;
+        }
+
+        @Override
+        protected void doGet(HttpServletRequest request,
+                             HttpServletResponse response) throws IOException {
+            String requestURI = request.getRequestURI();
+            if (requestURI.equals("/") || requestURI.equals("/index.html")) {
+                response.setContentType("text/html;charset=utf-8");
+                response.setStatus(HttpServletResponse.SC_OK);
+                OutputStream out = response.getOutputStream();
+                out.write(indexHtmlCustomTitleBytes);
+                out.close();
+            } else {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            }
+        }
     }
 
 }

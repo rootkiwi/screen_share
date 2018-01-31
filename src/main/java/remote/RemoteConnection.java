@@ -38,7 +38,11 @@ class RemoteConnection {
         ByteBuffer size = ByteBuffer.allocate(4);
         while (!cancel) {
             try {
-                frame = h264Frames.take().array();
+                try {
+                    frame = h264Frames.take().array();
+                } catch (InterruptedException e) {
+                    continue;
+                }
                 size.clear();
                 out.write(size.putInt(frame.length).array());
                 out.write(frame);

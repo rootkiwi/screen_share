@@ -40,6 +40,7 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static util.Util.isHexNumeric;
 
@@ -100,7 +101,7 @@ public class MainController implements GuiStatsUpdater, RectangleUpdater, Remote
     private Rectangle rectangleBounds = new Rectangle();
     private ConfigHandler configHandler = ConfigHandlerFactory.getConfigHandler();
     private Settings settings;
-    private boolean alreadyCleanedUp = false;
+    private AtomicBoolean alreadyCleanedUp = new AtomicBoolean(false);
     private boolean saveSettingsOnExit = false;
 
     private boolean remoteIsConnected = false;
@@ -176,10 +177,12 @@ public class MainController implements GuiStatsUpdater, RectangleUpdater, Remote
         menuSettings.setOnAction(e -> {
             SettingsWindow.SettingsReturnValue returnValue = new SettingsWindow(
                     saveSettingsOnExit,
-                    settings.saveRemotePassword
+                    settings.saveRemotePassword,
+                    settings.pageTitle
             ).displayAndWait();
             saveSettingsOnExit = returnValue.saveOnExit;
             settings.saveRemotePassword = returnValue.saveRemotePassword;
+            settings.pageTitle = returnValue.pageTitle;
         });
         menuExit.setOnAction(e -> Platform.exit());
         menuAbout.setOnAction(e -> new AboutWindow().display());
@@ -260,6 +263,7 @@ public class MainController implements GuiStatsUpdater, RectangleUpdater, Remote
 
     @Override
     public void remoteConnected() {
+        logWriter.writeLogInfo("remote connected");
         hideRemoteConnectButton();
         showRemoteDisconnectButton();
         disableRemoteCheckbox();
@@ -270,6 +274,7 @@ public class MainController implements GuiStatsUpdater, RectangleUpdater, Remote
 
     @Override
     public void remoteDisconnected() {
+        logWriter.writeLogInfo("remote disconnected");
         hideRemoteDisconnectButton();
         showRemoteConnectButton();
         enableRemoteConnectButton();
@@ -310,7 +315,7 @@ public class MainController implements GuiStatsUpdater, RectangleUpdater, Remote
             port = Integer.parseInt(addressInputSplit[1]);
             if (port >= 1 && port <= 65535) {
                 disableRemoteConnectButton();
-                remoteHandler.connect(address, port, passwordInput, fingerprintInput);
+                remoteHandler.connect(address, port, passwordInput, fingerprintInput, settings.pageTitle);
             } else {
                 logWriter.writeLogError("remote port error: invalid port (1-65535)");
             }
@@ -329,7 +334,7 @@ public class MainController implements GuiStatsUpdater, RectangleUpdater, Remote
             try {
                 port = Integer.parseInt(embeddedPort.getText());
                 if (port >= 0 && port <= 65535) {
-                    boolean success = embeddedWebServer.start(port);
+                    boolean success = embeddedWebServer.start(port, settings.pageTitle);
                     if (success) {
                         logWriter.writeLogInfo("embedded web server started");
                         printLocalAddressesToLog(port);
@@ -604,8 +609,7 @@ public class MainController implements GuiStatsUpdater, RectangleUpdater, Remote
     }
 
     synchronized void cleanup() {
-        if (!alreadyCleanedUp) {
-            alreadyCleanedUp = true;
+        if (!alreadyCleanedUp.getAndSet(true)) {
             statsUpdater.stop();
             h264FrameQueueFiller.stop();
             embeddedWebServer.stop();

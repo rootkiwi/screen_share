@@ -14,6 +14,7 @@ public class Settings {
 
     public boolean saveSettingsOnExit;
     public boolean saveRemotePassword;
+    public String pageTitle;
 
     public boolean shareUsingEmbedded;
     public String embeddedPort;
@@ -39,6 +40,7 @@ public class Settings {
     Settings(Properties properties) {
         saveSettingsOnExit = true;
         saveRemotePassword = Boolean.parseBoolean(properties.getProperty("saveRemotePassword"));
+        pageTitle = properties.getProperty("pageTitle");
         shareUsingEmbedded = Boolean.parseBoolean(properties.getProperty("shareUsingEmbedded"));
         embeddedPort = properties.getProperty("embeddedPort");
         shareToRemote = Boolean.parseBoolean(properties.getProperty("shareToRemote"));
