@@ -2,7 +2,7 @@
 Share your desktop screen to a web based client.
 Using an embedded web server or to a remote web server.
 
-The program [screen_share_remote](https://github.com/rootkiwi/screen_share_remote/)
+The program [screen_share_remote_go](https://github.com/rootkiwi/screen_share_remote_go/)
 is used for remote web server screen sharing.
 
 ![Screenshot](docs/images/screenshot.png)
