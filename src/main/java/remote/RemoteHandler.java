@@ -74,6 +74,7 @@ public class RemoteHandler implements RemoteConnectionHandler, RemoteConnectionC
             tlsSocket.setSoTimeout(5000);
         } catch (IOException e) {
             callback.remoteFailedToConnect("remote failed to connect: " + e.getMessage());
+            closeSocket();
             return;
         }
 
@@ -82,6 +83,7 @@ public class RemoteHandler implements RemoteConnectionHandler, RemoteConnectionC
             tlsSocket.startHandshake();
         } catch (IOException e) {
             callback.remoteFailedToConnect("remote TLS handshake failed: " + e.getMessage());
+            closeSocket();
             return;
         }
 
@@ -98,12 +100,14 @@ public class RemoteHandler implements RemoteConnectionHandler, RemoteConnectionC
 
         if (!remoteCertificateFingerprint.equals(fingerprint)) {
             callback.remoteFailedToConnect("remote fingerprint does not match: " + remoteCertificateFingerprint);
+            closeSocket();
             return;
         }
 
         if (!isScreenShareServer(in)) {
             callback.remoteFailedToConnect("remote connected to something, "
                     + "but does not seem to be a screen_share_remote server");
+            closeSocket();
             return;
         }
 
@@ -121,12 +125,14 @@ public class RemoteHandler implements RemoteConnectionHandler, RemoteConnectionC
             passwordAccepted = in.read() == 1;
             if (!passwordAccepted) {
                 callback.remoteFailedToConnect("wrong remote password");
+                closeSocket();
                 return;
             } else {
                 callback.remoteConnected();
             }
         } catch (IOException e) {
             callback.remoteFailedToConnect("error waiting for password verification: " + e.getMessage());
+            closeSocket();
             return;
         }
 
@@ -211,10 +217,14 @@ public class RemoteHandler implements RemoteConnectionHandler, RemoteConnectionC
 
     private void stop() {
         stop = true;
+        closeSocket();
+        queueFiller.removeQueue(h264Frames);
+    }
+
+    private void closeSocket() {
         try {
             tlsSocket.close();
         } catch (Exception e) {}
-        queueFiller.removeQueue(h264Frames);
     }
 
 }
