@@ -1,7 +1,7 @@
 import java.text.SimpleDateFormat
 
 plugins {
-    id 'com.github.johnrengelman.shadow' version '2.0.2'
+    id 'com.github.johnrengelman.shadow' version '2.0.3'
 }
 
 group 'kiwi.root'
@@ -18,15 +18,15 @@ repositories {
 dependencies {
     testCompile 'junit:junit:4.12'
 
-    compile 'org.eclipse.jetty:jetty-server:9.4.8.v20171121'
-    compile 'org.eclipse.jetty.websocket:websocket-server:9.4.8.v20171121'
+    compile 'org.eclipse.jetty:jetty-server:9.4.9.v20180320'
+    compile 'org.eclipse.jetty.websocket:websocket-server:9.4.9.v20180320'
 
-    compile 'org.bytedeco:javacv:1.4'
-    compile 'org.bytedeco.javacpp-presets:ffmpeg:3.4.1-1.4:linux-x86'
-    compile 'org.bytedeco.javacpp-presets:ffmpeg:3.4.1-1.4:linux-x86_64'
-    compile 'org.bytedeco.javacpp-presets:ffmpeg:3.4.1-1.4:macosx-x86_64'
-    compile 'org.bytedeco.javacpp-presets:ffmpeg:3.4.1-1.4:windows-x86'
-    compile 'org.bytedeco.javacpp-presets:ffmpeg:3.4.1-1.4:windows-x86_64'
+    compile 'org.bytedeco:javacv:1.4.1'
+    compile 'org.bytedeco.javacpp-presets:ffmpeg:3.4.2-1.4.1:linux-x86'
+    compile 'org.bytedeco.javacpp-presets:ffmpeg:3.4.2-1.4.1:linux-x86_64'
+    compile 'org.bytedeco.javacpp-presets:ffmpeg:3.4.2-1.4.1:macosx-x86_64'
+    compile 'org.bytedeco.javacpp-presets:ffmpeg:3.4.2-1.4.1:windows-x86'
+    compile 'org.bytedeco.javacpp-presets:ffmpeg:3.4.2-1.4.1:windows-x86_64'
 }
 
 jar {
