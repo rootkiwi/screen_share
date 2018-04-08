@@ -1,3 +1,7 @@
+### 0.2.1 (Apr 8, 2018)
+* Close remote socket if something failed during initial transfers (like wrong password)
+to signal EOF to remote
+
 ### 0.2.0 (Jan 31, 2018)
 * Add new setting for custom page title
 * Fix a bug that made the remote connection close when last viewer exited
