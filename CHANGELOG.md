@@ -1,3 +1,6 @@
+### 0.3.0 (Jul 31, 2018)
+* Update dependencies
+
 ### 0.2.1 (Apr 8, 2018)
 * Close remote socket if something failed during initial transfers (like wrong password)
 to signal EOF to remote
