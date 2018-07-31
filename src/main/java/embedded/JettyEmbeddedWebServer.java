@@ -10,6 +10,7 @@ package embedded;
 
 import log.LogWriter;
 import h264.FrameQueueFiller;
+import org.eclipse.jetty.http.MimeTypes;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -99,11 +100,15 @@ class JettyEmbeddedWebServer implements EmbeddedWebServer {
         cssStaticFilesContext.setHandler(cssResourceHandler);
 
         ResourceHandler jsResourceHandler = new ResourceHandler();
+        jsResourceHandler.setAcceptRanges(true);
         jsResourceHandler.setDirectoriesListed(false);
         jsResourceHandler.setResourceBase(getClass().getClassLoader().getResource("web/static/js").toExternalForm());
         ContextHandler jsStaticFilesContext = new ContextHandler();
         jsStaticFilesContext.setContextPath("/js/*");
         jsStaticFilesContext.setHandler(jsResourceHandler);
+        MimeTypes mimeTypes = new MimeTypes();
+        mimeTypes.addMimeMapping("wasm", "application/wasm");
+        jsStaticFilesContext.setMimeTypes(mimeTypes);
 
         ServletContextHandler indexServletContext = new ServletContextHandler();
         indexServletContext.addServlet(new ServletHolder(new IndexHtmlServlet(indexHtmlCustomTitleBytes)), "/*");

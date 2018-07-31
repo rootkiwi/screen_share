@@ -25,7 +25,7 @@ var message = select("#message");
 function setupH264CanvasPlayer() {
     h264Player = new Player({
         useWorker: true,
-        workerFile: "js/broadway/Decoder.js",
+        workerFile: "js/broadway/Decoder.min.js",
         webgl: "auto"
     });
     var canvas = h264Player.canvas;
